@@ -97,7 +97,7 @@ struct stack stack[MAX_INCLUDE];	/* maximum level of includes */
 int use_force = 0;
 
 /* print an error message, including current line and file */
-    void
+void
 printerr (int error, const char *fmt, ...)
 {
     va_list l;
@@ -117,7 +117,7 @@ printerr (int error, const char *fmt, ...)
 }
 
 /* skip over spaces in string */
-    const char *
+const char *
 delspc (const char *ptr)
 {
     while (*ptr && isspace (*ptr))
@@ -128,7 +128,7 @@ delspc (const char *ptr)
 }
 
 /* read away a comma, error if there is none */
-    static void
+static void
 rd_comma (const char **p)
 {
     *p = delspc (*p);
@@ -141,7 +141,7 @@ rd_comma (const char **p)
 }
 
 /* look ahead for a comma, no error if not found */
-    static int
+static int
 has_argument (const char **p)
 {
     const char *q = delspc (*p);
@@ -151,7 +151,7 @@ has_argument (const char **p)
 /* During assembly, many literals are not parsed.  Instead, they are saved
  * until all labels are read.  After that, they are parsed.  This function
  * is used during assembly, to find the place where the command continues. */
-    static void
+static void
 skipword (const char **pos, char delimiter)
 {
     /* rd_expr will happily read the expression, and possibly return
@@ -162,7 +162,7 @@ skipword (const char **pos, char delimiter)
 }
 
 /* callback function for argument parser, used to open output files. */
-    static FILE *
+static FILE *
 openfile (int *done,		/* flag to check that a file is opened only once. */
         const char *type,	/* name of filetype for error message */
         FILE * def,		/* default value, in case "-" is specified */
@@ -195,7 +195,7 @@ openfile (int *done,		/* flag to check that a file is opened only once. */
 }
 
 /* open an included file, searching the path */
-    static FILE *
+static FILE *
 open_include_file (const char *name, struct includedir **dir,
         const char *flags)
 {
@@ -232,7 +232,7 @@ open_include_file (const char *name, struct includedir **dir,
 }
 
 /* queue a file to be opened for reading */
-    static void
+static void
 open_infile (const char *name)
 {
     infile = realloc (infile, sizeof (struct infile) * (infilecount + 1));
@@ -250,7 +250,7 @@ open_infile (const char *name)
 }
 
 /* add a directory to the include search path */
-    static void
+static void
 add_include (const char *name)
 {
     struct includedir *i;
@@ -267,7 +267,7 @@ add_include (const char *name)
     firstincludedir = i;
 }
 
-    static void
+static void
 try_use_real_file (FILE * real, FILE ** backup)
 {
     fpos_t pos;
@@ -284,7 +284,7 @@ try_use_real_file (FILE * real, FILE ** backup)
     }
 }
 
-    static void
+static void
 flush_to_real_file (FILE * real, FILE * tmp)
 {
     int l, size, len = 0;
@@ -323,7 +323,7 @@ flush_to_real_file (FILE * real, FILE * tmp)
 }
 
 /* parse commandline arguments */
-    static void
+static void
 parse_commandline (int argc, char **argv)
 {
     const struct option opts[] = {
@@ -434,7 +434,7 @@ parse_commandline (int argc, char **argv)
 }
 
 /* find any of the list[] entries as the start of ptr and return index */
-    static int
+static int
 indx (const char **ptr, const char **list, int error, const char **expr)
 {
     int i;
@@ -521,14 +521,14 @@ indx (const char **ptr, const char **list, int error, const char **expr)
 }
 
 /* read a mnemonic */
-    static int
+static int
 readcommand (const char **p)
 {
     return indx (p, mnemonics, 0, NULL);
 }
 
 /* try to read a label and optionally store it in the list */
-    static void
+static void
 readlabel (const char **p, int store)
 {
     const char *c, *d, *pos, *dummy;
@@ -600,7 +600,7 @@ static void new_reference (const char *data, int type, char delimiter,
         int ds_count);
 
 /* write one byte to the outfile, and add it to the list file as well */
-    static void
+static void
 write_one_byte (int b, int list)
 {
     if (verbose >= 4)
@@ -619,7 +619,7 @@ write_one_byte (int b, int list)
 }
 
 /* write byte to outfile and possibly some index things as well */
-    static void
+static void
 wrtb (int b)
 {
     if (verbose >= 4)
@@ -714,7 +714,7 @@ static void wrt_ref (int val, int type, int count);
 
 /* Create a new reference, to be resolved after assembling (so all labels are
  * known.) */
-    static void
+static void
 new_reference (const char *p, int type, char delimiter, int ds_count)
 {
     struct reference *tmp = NULL;
@@ -805,14 +805,14 @@ new_reference (const char *p, int type, char delimiter, int ds_count)
 }
 
 /* write the last read word to file */
-    static void
+static void
 write_word (void)
 {
     new_reference (readword, TYPE_ABSW, mem_delimiter, 1);
 }
 
 /* write the last read byte to file (relative) */
-    static void
+static void
 write_rel (void)
 {
     new_reference (readbyte, TYPE_RELB, mem_delimiter, (addr + 1) & 0xffff);
@@ -820,7 +820,7 @@ write_rel (void)
 }
 
 /* read a word from input and store it in readword. return 1 on success */
-    static int
+static int
 rd_word (const char **p, char delimiter)
 {
     *p = delspc (*p);
@@ -833,7 +833,7 @@ rd_word (const char **p, char delimiter)
 }
 
 /* read a byte from input and store it in readbyte. return 1 on success */
-    static int
+static int
 rd_byte (const char **p, char delimiter)
 {
     *p = delspc (*p);
@@ -848,7 +848,7 @@ rd_byte (const char **p, char delimiter)
 
 /* read an address from infile and put it in reference table.
  * so that it will be written here afterwards */
-    static void
+static void
 rd_wrt_addr (const char **p, char delimiter)
 {
     if (!rd_word (p, delimiter))
@@ -857,7 +857,7 @@ rd_wrt_addr (const char **p, char delimiter)
 }
 
 /* like rd_wrt_addr, but for a relative jump */
-    static void
+static void
 rd_wrt_jr (const char **p, char delimiter)
 {
     if (!rd_byte (p, delimiter))
@@ -866,7 +866,7 @@ rd_wrt_jr (const char **p, char delimiter)
 }
 
 /* read a or hl */
-    static int
+static int
 rd_a_hl (const char **p)
 {
 #define HL 2
@@ -875,7 +875,7 @@ rd_a_hl (const char **p)
 }
 
 /* read first argument of ld */
-    static int
+static int
 rd_ld (const char **p)
 {
 #define ldBC	1
@@ -937,7 +937,7 @@ rd_ld (const char **p)
 }
 
 /* read first argument of JP */
-    static int
+static int
 rd_jp (const char **p)
 {
     int i;
@@ -955,7 +955,7 @@ rd_jp (const char **p)
 }
 
 /* read first argument of JR */
-    static int
+static int
 rd_jr (const char **p)
 {
     const char *list[] = { "nz", "z", "nc", "c", NULL };
@@ -963,7 +963,7 @@ rd_jr (const char **p)
 }
 
 /* read A */
-    static int
+static int
 rd_a (const char **p)
 {
     const char *list[] = { "a", NULL };
@@ -971,7 +971,7 @@ rd_a (const char **p)
 }
 
 /* read bc,de,hl,af */
-    static int
+static int
 rd_stack (const char **p)
 {
     int i;
@@ -983,27 +983,10 @@ rd_stack (const char **p)
     return 3;
 }
 
-#if 0
-/* read a or hl(2) or i[xy](2) with variables set */
-    static int
-rd_a_hlx (const char **p)
-{
-    int i;
-    const char *list[] = { "a", "hl", "ix", "iy", NULL };
-    i = indx (p, list, 1, NULL);
-    if (i < 2)
-        return i;
-    if (i == 2)
-        return 2;
-    indexed = 0xDD + 0x20 * (i - 3);
-    return 2;
-}
-#endif
-
 /* read b,c,d,e,h,l,(hl),a,(ix+nn),(iy+nn),nn 
  * but now with extra hl or i[xy](15) for add-instruction
  * and set variables accordingly */
-    static int
+static int
 rd_r_add (const char **p)
 {
 #define addHL 	15
@@ -1040,7 +1023,7 @@ rd_r_add (const char **p)
 }
 
 /* read bc,de,hl, or sp */
-    static int
+static int
 rd_rr_ (const char **p)
 {
     const char *list[] = { "bc", "de", "hl", "sp", NULL };
@@ -1048,7 +1031,7 @@ rd_rr_ (const char **p)
 }
 
 /* read bc,de,hl|ix|iy,sp. hl|ix|iy only if it is already indexed the same. */
-    static int
+static int
 rd_rrxx (const char **p)
 {
     const char *listx[] = { "bc", "de", "ix", "sp", NULL };
@@ -1067,7 +1050,7 @@ rd_rrxx (const char **p)
 
 /* read b,c,d,e,h,l,(hl),a,(ix+nn),(iy+nn),nn
  * and set variables accordingly */
-    static int
+static int
 rd_r (const char **p)
 {
     int i;
@@ -1097,7 +1080,7 @@ rd_r (const char **p)
 }
 
 /* like rd_r(), but without nn */
-    static int
+static int
 rd_r_ (const char **p)
 {
     int i;
@@ -1112,7 +1095,7 @@ rd_r_ (const char **p)
 }
 
 /* read a number from 0 to 7, for bit, set or res */
-    static int
+static int
 rd_0_7 (const char **p)
 {
     *p = delspc (*p);
@@ -1124,7 +1107,7 @@ rd_0_7 (const char **p)
 }
 
 /* read long condition. do not error if not found. */
-    static int
+static int
 rd_cc (const char **p)
 {
     const char *list[] = { "nz", "z", "nc", "c", "po", "pe", "p", "m", NULL };
@@ -1132,7 +1115,7 @@ rd_cc (const char **p)
 }
 
 /* read long or short register,  */
-    static int
+static int
 rd_r_rr (const char **p)
 {
     int i;
@@ -1155,7 +1138,7 @@ rd_r_rr (const char **p)
 }
 
 /* read argument of ld (hl), */
-    static int
+static int
 rd_ld_hl (const char **p)
 {
     int i;
@@ -1168,7 +1151,7 @@ rd_ld_hl (const char **p)
 }
 
 /* read argument of ld (nnnn), */
-    static int
+static int
 rd_ld_nn (const char **p)
 {
 #define ld_nnHL 5
@@ -1183,7 +1166,7 @@ rd_ld_nn (const char **p)
 }
 
 /* read argument of ld a, */
-    static int
+static int
 rd_lda (const char **p)
 {
 #define A 8
@@ -1217,7 +1200,7 @@ rd_lda (const char **p)
 }
 
 /* read argument of ld b|c|d|e|h|l */
-    static int
+static int
 rd_ldbcdehla (const char **p)
 {
     int i;
@@ -1260,7 +1243,7 @@ rd_ldbcdehla (const char **p)
 }
 
 /* read nnnn, or (nnnn) */
-    static int
+static int
 rd_nn_nn (const char **p)
 {
 #define _NN 1
@@ -1269,7 +1252,7 @@ rd_nn_nn (const char **p)
 }
 
 /* read {HL|IX|IY},nnnn, or (nnnn) */
-    static int
+static int
 rd_sp (const char **p)
 {
 #define SPNN 0
@@ -1289,7 +1272,7 @@ rd_sp (const char **p)
 }
 
 /* write a reference after it has been computed */
-    static void
+static void
 wrt_ref (int val, int type, int count)
 {
     switch (type)
@@ -1349,7 +1332,7 @@ wrt_ref (int val, int type, int count)
     }
 }
 
-    static char *
+static char *
 get_include_name (const char **ptr)
 {
     int pos = 0;
@@ -1385,7 +1368,7 @@ get_include_name (const char **ptr)
     return name;
 }
 
-    static int
+static int
 read_line (void)
 {
     unsigned pos, newpos, size;
@@ -1464,7 +1447,7 @@ read_line (void)
     return 1;
 }
 
-    static unsigned
+static unsigned
 get_macro_args (const char **ptr, char ***ret_args, int allow_empty)
 {
     unsigned numargs = 0;
@@ -1508,7 +1491,7 @@ get_macro_args (const char **ptr, char ***ret_args, int allow_empty)
 }
 
 /* do the actual work */
-    static void
+static void
 assemble (void)
 {
     int ifcount = 0, noifcount = 0;
