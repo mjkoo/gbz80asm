@@ -31,7 +31,6 @@
 	ld a, -0x80
 	halt
 	add hl, de
-	ex af, af'
 	jr z, $ + 4
 	defb 0, 4, 5, label - $
 label:

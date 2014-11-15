@@ -1,7 +1,8 @@
 .\"                                      Hey, EMACS: -*- nroff -*-
-.\" z80asm.1 - manual page
+.\" gbz80asm.1 - manual page
 .\" Copyright 2005-2007 Bas Wijnen <wijnen@debian.org>
-.\" This file is part of z80asm.
+.\" Copyright 2014 Maxwell J. Koo <mjkoo90@gmail.com>
+.\" This file is part of gbz80asm.
 .\"
 .\" Z80asm is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -34,9 +35,9 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-z80asm \- assembler for the Z80 microprocessor
+gbz80asm \- assembler for the Z80 microprocessor
 .SH SYNOPSIS
-.B z80asm
+.B gbz80asm
 .RI [ options ] " " [ "files..." ]
 .SH DESCRIPTION
 Z80asm is an assembler for Z80 assembly.
@@ -78,7 +79,7 @@ Specify the output file.  '-' or completely omitting the option means stdout.
 .BR "\-I, \-\-includepath" =dirname
 Add a directory to the include path.  The order in which the directories are
 tried is from back to front: the last directory specified has the highest
-priority.  "/usr/share/z80asm" is always in the include path (with lowest
+priority.  "/usr/share/gbz80asm" is always in the include path (with lowest
 priority), you don't have to specify it.
 .TP
 .B \-f, \-\-force
@@ -308,7 +309,7 @@ a different setting (where the if's give different results).
 
 .SH BUGS
 If you find a bug, or want to send comments, please use the web interface at
-http://savannah.nongnu.org/projects/z80asm/ or send an e\-mail to
+http://savannah.nongnu.org/projects/gbz80asm/ or send an e\-mail to
 wijnen@debian.org.
 
 .SH AUTHOR

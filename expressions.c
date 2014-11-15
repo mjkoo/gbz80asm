@@ -19,7 +19,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "z80asm.h"
+#include "gbz80asm.h"
 
 /* reading expressions. The following operators are supported
  * in order of precedence, with function name:

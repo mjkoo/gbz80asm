@@ -1,7 +1,7 @@
 # Makefile for the Z80 assembler by shevek
 # Copyright 2002-2007  Bas Wijnen
 #
-# This file is part of z80asm.
+# This file is part of gbz80asm.
 #
 # Z80asm is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,30 +21,30 @@ CFLAGS = -O0 -Wall -Wwrite-strings -Wcast-qual -Wcast-align -Wstrict-prototypes 
 SHELL = /bin/bash
 VERSION ?= $(shell echo -n `cat VERSION | cut -d. -f1`. ; echo $$[`cat VERSION | cut -d. -f2` + 1])
 
-all:z80asm
+all:gbz80asm
 
-z80asm: z80asm.o expressions.o Makefile gnulib/getopt.o gnulib/getopt1.o
+gbz80asm: gbz80asm.o expressions.o Makefile gnulib/getopt.o gnulib/getopt1.o
 	$(CC) $(LDFLAGS) $(filter %.o,$^) -o $@
 	$(MAKE) -C tests || rm $@
 
-%.o:%.c z80asm.h gnulib/getopt.h Makefile
+%.o:%.c gbz80asm.h gnulib/getopt.h Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -DVERSION=\"$(shell cat VERSION)\"
 
 clean:
 	for i in . gnulib examples headers ; do \
 		rm -f $$i/core $$i/*~ $$i/\#* $$i/*.o $$i/*.rom ; \
 	done
-	rm -f z80asm z80asm.exe
+	rm -f gbz80asm gbz80asm.exe
 
 dist: clean
 	! git status | grep modified
 	echo $(VERSION) > VERSION
 	git add VERSION
 	-git commit -m "Release version $(VERSION)"
-	rm -rf /tmp/z80asm-$(VERSION)
-	git archive --format=tar --prefix=z80asm-$(VERSION)/ HEAD | tar xf - -C /tmp
-	tar cvzf ../z80asm-$(VERSION).tar.gz -C /tmp z80asm-$(VERSION)
-	rm -r /tmp/z80asm-$(VERSION)
-	cd .. && gpg -b z80asm-$(VERSION).tar.gz
-	scp ../z80asm-$(VERSION).tar.gz* dl.sv.nongnu.org:/releases/z80asm/
+	rm -rf /tmp/gbz80asm-$(VERSION)
+	git archive --format=tar --prefix=gbz80asm-$(VERSION)/ HEAD | tar xf - -C /tmp
+	tar cvzf ../gbz80asm-$(VERSION).tar.gz -C /tmp gbz80asm-$(VERSION)
+	rm -r /tmp/gbz80asm-$(VERSION)
+	cd .. && gpg -b gbz80asm-$(VERSION).tar.gz
+	scp ../gbz80asm-$(VERSION).tar.gz* dl.sv.nongnu.org:/releases/gbz80asm/
 	git push
