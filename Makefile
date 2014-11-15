@@ -17,17 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CC = gcc
-CFLAGS = -O0 -Wall -Wwrite-strings -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -pedantic -ansi -Wshadow -ggdb3 -W -Ignulib
+CFLAGS = -O0 -Wall -Wwrite-strings -Wcast-qual -Wcast-align -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline -pedantic -ansi -Wshadow -ggdb3 -W
 SHELL = /bin/bash
 VERSION ?= $(shell echo -n `cat VERSION | cut -d. -f1`. ; echo $$[`cat VERSION | cut -d. -f2` + 1])
 
-all:gbz80asm
+all: gbz80asm
 
-gbz80asm: gbz80asm.o expressions.o Makefile gnulib/getopt.o gnulib/getopt1.o
+gbz80asm: gbz80asm.o expressions.o Makefile
 	$(CC) $(LDFLAGS) $(filter %.o,$^) -o $@
 	$(MAKE) -C tests || rm $@
 
-%.o:%.c gbz80asm.h gnulib/getopt.h Makefile
+%.o:%.c gbz80asm.h Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -DVERSION=\"$(shell cat VERSION)\"
 
 clean:

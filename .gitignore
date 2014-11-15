@@ -1,5 +1,3 @@
 expressions.o
-gnulib/getopt.o
-gnulib/getopt1.o
 gbz80asm
 gbz80asm.o
